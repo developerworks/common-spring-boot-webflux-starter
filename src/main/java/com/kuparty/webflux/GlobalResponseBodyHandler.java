@@ -27,7 +27,7 @@ public class GlobalResponseBodyHandler extends ResponseBodyResultHandler {
             METHOD_PARAMETER_MONO_COMMON_RESULT = new MethodParameter(
                     GlobalResponseBodyHandler.class.getDeclaredMethod("methodForParams"), -1);
         } catch (NoSuchMethodException e) {
-            log.error("[static][获取 METHOD_PARAMETER_MONO_COMMON_RESULT 时, 找不都方法");
+            log.error("[static] [获取 METHOD_PARAMETER_MONO_COMMON_RESULT 时, 找不都方法");
             throw new RuntimeException(e);
         }
     }

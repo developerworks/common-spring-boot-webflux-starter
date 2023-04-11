@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public CommonResult<?> convertExceptionMsg(Exception e) {
-        //自定义逻辑，可返回其他值
-        return ResultUtil.fail(400, "message", null);
-    }
-
     @ExceptionHandler(BindException.class)
     @ResponseBody
     public CommonResult<?> processBindException(BindException e) {
@@ -31,4 +25,13 @@ public class GlobalExceptionHandler {
         String description = String.format("%s:%s", error.getField(), error.getCode());
         return ResultUtil.fail(-1, description, null);
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public CommonResult<?> convertExceptionMsg(Exception e) {
+        //自定义逻辑，可返回其他值
+        return ResultUtil.fail(400, e.getMessage(), e);
+    }
+
+
 }

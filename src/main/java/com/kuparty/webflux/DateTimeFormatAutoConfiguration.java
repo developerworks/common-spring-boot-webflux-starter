@@ -40,7 +40,7 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
     @ConditionalOnProperty(prefix = "spring.webflux.date-time-format", name = "enabled", havingValue = "true")
     @Bean
     JavaTimeModule javaTimeModule() {
-        log.info("Configuring java 8 date time serializers...");
+        log.info("[auto-configure] Configuring java 8 date time serializers...");
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         // 日期和时间
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter

@@ -26,7 +26,7 @@ public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
     @ConditionalOnProperty(prefix = "spring.webflux.cors", name = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        log.info("Configuring cors...");
+        log.info("[auto-configure] Configuring cors...");
         registry
                 .addMapping(corsProperties.getAddMapping())
                 .allowCredentials(corsProperties.getAllowCredentials())
