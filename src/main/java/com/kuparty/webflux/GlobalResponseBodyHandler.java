@@ -1,8 +1,7 @@
-package com.example.common;
+package com.kuparty.webflux;
 
+import com.kuparty.common.CommonResult;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.http.codec.HttpMessageWriter;

@@ -1,3 +1,2 @@
-com.example.common.CustomizedWebFluxAutoConfiguration
-com.example.common.DateTimeFormatAutoConfiguration
-com.example.common.GlobalExceptionHandler
+com.kuparty.webflux.CustomizedWebFluxAutoConfiguration
+com.kuparty.webflux.DateTimeFormatAutoConfiguration

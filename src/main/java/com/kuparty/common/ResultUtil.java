@@ -1,4 +1,4 @@
-package com.example.common;
+package com.kuparty.common;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +12,7 @@ public class ResultUtil {
 
     /**
      * 默认成功
+     *
      * @return 请求结果
      */
     public static CommonResult<String> ok() {
@@ -20,8 +21,9 @@ public class ResultUtil {
 
     /**
      * 带数据返回
-     * @param data  数据
-     * @param <T>   泛型
+     *
+     * @param data 数据
+     * @param <T>  泛型
      * @return 请求结果
      */
     @SuppressWarnings("unchecked")
@@ -35,8 +37,9 @@ public class ResultUtil {
 
     /**
      * 系统级别默认错误代码失败
-     * @param code          错误代码
-     * @param throwable     异常信息
+     *
+     * @param code      错误代码
+     * @param throwable 异常信息
      * @return 响应结果
      */
     public static <T> CommonResult<T> fail(StatusCode code, Throwable throwable) {
@@ -49,7 +52,7 @@ public class ResultUtil {
             );
         }
 
-        CommonResult<T> commonResult = new CommonResult<>();
+        CommonResult<T> commonResult = new CommonResult<T>();
         commonResult.setCode(statusCode.getCode());
         commonResult.setMessage(statusCode.getMessage());
         commonResult.setData(null);
@@ -59,9 +62,10 @@ public class ResultUtil {
 
     /**
      * 自定义任意结果错误信息响应
-     * @param code          错误代码
-     * @param message       错误描述
-     * @param throwable     异常信息
+     *
+     * @param code      错误代码
+     * @param message   错误描述
+     * @param throwable 异常信息
      * @return 响应结果
      */
     public static <T> CommonResult<T> fail(Integer code, String message, Throwable throwable) {
@@ -75,7 +79,7 @@ public class ResultUtil {
             );
         }
 
-        CommonResult<T> commonResult = new CommonResult<>();
+        CommonResult<T> commonResult = new CommonResult<T>();
         commonResult.setCode(statusCode);
         commonResult.setMessage(statusMessage);
         commonResult.setData(null);

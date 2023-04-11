@@ -1,4 +1,4 @@
-package com.example.common;
+package com.kuparty.webflux;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

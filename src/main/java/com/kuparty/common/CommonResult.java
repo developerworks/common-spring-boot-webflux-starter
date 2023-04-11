@@ -1,4 +1,4 @@
-package com.example.common;
+package com.kuparty.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -35,9 +35,10 @@ public class CommonResult<T> implements Serializable {
     public static <T> CommonResult<T> error(CommonResult<?> result) {
         return error(result.getCode(), result.getMessage());
     }
+
     public static <T> CommonResult<T> error(Integer code, String message) {
-        Assert.isTrue(!CODE_SUCCESS.equals(code), "code 必须是错误的！");
-        CommonResult<T> result = new CommonResult<>();
+        Assert.isTrue(!CODE_SUCCESS.equals(code), "错误结果代码不能设置为 0");
+        CommonResult<T> result = new CommonResult<T>();
         result.code = code;
         result.message = message;
         return result;
@@ -45,7 +46,7 @@ public class CommonResult<T> implements Serializable {
 
 
     public static <T> CommonResult<T> success(T data) {
-        CommonResult<T> result = new CommonResult<>();
+        CommonResult<T> result = new CommonResult<T>();
         result.code = CODE_SUCCESS;
         result.data = data;
         result.message = "";

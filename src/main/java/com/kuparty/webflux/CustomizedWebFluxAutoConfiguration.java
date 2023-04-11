@@ -1,4 +1,4 @@
-package com.example.common;
+package com.kuparty.webflux;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,5 @@
-package com.example.common;
+package com.kuparty.webflux;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,7 +30,7 @@ import java.util.Locale;
 @Configuration
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-@EnableConfigurationProperties({CorsProperties.class, DateTimeFormatProperties.class})
+@EnableConfigurationProperties({DateTimeFormatProperties.class})
 @RequiredArgsConstructor
 @Slf4j
 public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
