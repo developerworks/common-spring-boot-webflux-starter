@@ -1,2 +1,5 @@
+com.kuparty.session.jdbc.SessionJdbcAutoConfiguration
+com.kuparty.session.memory.SessionMemoryAutoConfiguration
+com.kuparty.session.redis.SessionRedisAutoConfiguration
 com.kuparty.webflux.CustomizedWebFluxAutoConfiguration
 com.kuparty.webflux.DateTimeFormatAutoConfiguration

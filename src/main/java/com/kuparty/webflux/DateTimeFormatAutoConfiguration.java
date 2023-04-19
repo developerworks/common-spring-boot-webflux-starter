@@ -10,7 +10,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -37,10 +36,9 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
 
     private final DateTimeFormatProperties dateTimeFormatProperties;
 
-    @ConditionalOnProperty(prefix = "spring.webflux.date-time-format", name = "enabled", havingValue = "true")
     @Bean
     JavaTimeModule javaTimeModule() {
-        log.info("[auto-configure] Configuring java 8 date time serializers...");
+        log.info("[Kuparty] Configuring java 8 date time serializers...");
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         // 日期和时间
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter
@@ -66,10 +64,9 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
         return javaTimeModule;
     }
 
-    @ConditionalOnProperty(prefix = "spring.webflux.date-time-format", name = "enabled", havingValue = "true")
     @Override
     public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
-        log.info("Configuring jackson2 encoder/decoder...");
+        log.info("[Kuparty] Configuring jackson2 encoder/decoder...");
         configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(
                 new ObjectMapper().registerModule(javaTimeModule())
 //                        .setSerializationInclusion(JsonInclude.Include.NON_NULL)

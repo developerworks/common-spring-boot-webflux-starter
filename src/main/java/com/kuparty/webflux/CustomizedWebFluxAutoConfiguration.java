@@ -12,6 +12,7 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
+import org.springframework.web.reactive.result.method.annotation.ResponseBodyResultHandler;
 
 @Configuration
 @ConditionalOnClass(WebFluxConfigurer.class)
@@ -26,7 +27,7 @@ public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
     @ConditionalOnProperty(prefix = "spring.webflux.cors", name = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        log.info("[auto-configure] Configuring cors...");
+        log.info("[Kuparty] Configuring cors...");
         registry
                 .addMapping(corsProperties.getAddMapping())
                 .allowCredentials(corsProperties.getAllowCredentials())
@@ -56,10 +57,12 @@ public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
     //    }
 
     @Bean
-    public GlobalResponseBodyHandler globalResponseBodyHandler(
+    public ResponseBodyResultHandler responseBodyResultHandler(
             ServerCodecConfigurer serverCodecConfigurer,
-            RequestedContentTypeResolver requestedContentTypeResolver) {
-        return new GlobalResponseBodyHandler(serverCodecConfigurer.getWriters(), requestedContentTypeResolver);
+            RequestedContentTypeResolver requestedContentTypeResolver
+    ) {
+        log.info("Creating GlobalResponseBodyHandler Instance");
+        return new GlobalResponseWrapper(serverCodecConfigurer.getWriters(), requestedContentTypeResolver);
     }
 
     @Bean
