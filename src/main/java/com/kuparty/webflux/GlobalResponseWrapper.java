@@ -4,6 +4,7 @@ import com.kuparty.common.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ReactiveAdapterRegistry;
+import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageWriter;
 import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
@@ -27,7 +28,7 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
             METHOD_PARAMETER_MONO_COMMON_RESULT = new MethodParameter(
                     GlobalResponseWrapper.class.getDeclaredMethod("methodForParams"), -1);
         } catch (NoSuchMethodException e) {
-            log.error("[Kuparty] [获取 METHOD_PARAMETER_MONO_COMMON_RESULT 时, 找不都方法");
+            log.error("[Kuparty] [获取 METHOD_PARAMETER_MONO_COMMON_RESULT 时, 找不到方法");
             throw new RuntimeException(e);
         }
     }
@@ -40,10 +41,10 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         super(writers, resolver, registry);
     }
 
-    private static <T> CommonResult<T> wrapCommonResult(T body) {
+    private static <T> CommonResult<?> wrapCommonResult(T body) {
         // 如果已经是 CommonResult 类型，则直接返回
         if (body instanceof CommonResult) {
-            return (CommonResult<T>) body;
+            return (CommonResult<?>) body;
         }
         // 如果不是，则包装成 CommonResult 类型
         return CommonResult.success(body);
@@ -57,16 +58,19 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
     @Override
     public Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
 
+        // 全局设置应答头 Content-Type
+        exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
         Object returnValue = result.getReturnValue();
         Object body;
-        // <1.1>  处理返回结果为 Mono 的情况
+            // <1.1>  处理返回结果为 Mono 的情况
         if (returnValue instanceof Mono) {
-            body = ((Mono<Object>) result.getReturnValue())
+            body = ((Mono<?>) result.getReturnValue())
                     .map((Function<Object, Object>) GlobalResponseWrapper::wrapCommonResult)
                     .defaultIfEmpty(COMMON_RESULT_SUCCESS);
             //  <1.2> 处理返回结果为 Flux 的情况
         } else if (returnValue instanceof Flux) {
-            body = ((Flux<Object>) result.getReturnValue())
+            body = ((Flux<?>) result.getReturnValue())
                     .collectList()
                     .map((Function<Object, Object>) GlobalResponseWrapper::wrapCommonResult)
                     .defaultIfEmpty(COMMON_RESULT_SUCCESS);
@@ -74,7 +78,7 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         } else {
             body = wrapCommonResult(returnValue);
         }
-        log.info(String.format("handleResult %s", body));
+        log.debug(String.format("[Kuparty] handleResult %s", body));
         return writeBody(body, METHOD_PARAMETER_MONO_COMMON_RESULT, exchange);
     }
 
