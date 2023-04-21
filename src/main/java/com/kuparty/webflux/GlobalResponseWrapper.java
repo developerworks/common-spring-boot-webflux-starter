@@ -41,15 +41,19 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         super(writers, resolver, registry);
     }
 
+    /**
+     * 包装处理器返回的结果类型, 如果改类型为统一结果类型 CommonResult<?>, 强制转换并返回, 否则调用
+     * {@link CommonResult#success} 进行包装
+     *
+     * @param body T
+     * @return CommonResult<?>
+     */
     private static <T> CommonResult<?> wrapCommonResult(T body) {
-        // 如果已经是 CommonResult 类型，则直接返回
         if (body instanceof CommonResult) {
             return (CommonResult<?>) body;
         }
-        // 如果不是，则包装成 CommonResult 类型
         return CommonResult.success(body);
     }
-
 
     private static <T> Mono<CommonResult<T>> methodForParams() {
         return null;
@@ -62,8 +66,9 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
         Object returnValue = result.getReturnValue();
+
         Object body;
-            // <1.1>  处理返回结果为 Mono 的情况
+        // <1.1>  处理返回结果为 Mono 的情况
         if (returnValue instanceof Mono) {
             body = ((Mono<?>) result.getReturnValue())
                     .map((Function<Object, Object>) GlobalResponseWrapper::wrapCommonResult)

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
+
 /**
  * Global exception handler for common exceptions, If you want to add customized exception handlers, you
  * can extends GlobalExceptionHandler and add some new methods for other exceptions or you customized exceptions
@@ -23,14 +25,14 @@ public class GlobalExceptionHandler {
         FieldError error = result.getFieldError();
         assert error != null;
         String description = String.format("%s:%s", error.getField(), error.getCode());
-        return ResultUtil.fail(-1, description, null);
+        return ResultUtil.fail(-1, Collections.singletonList(description), null);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public CommonResult<?> convertExceptionMsg(Exception e) {
         //自定义逻辑，可返回其他值
-        return ResultUtil.fail(400, e.getMessage(), e);
+        return ResultUtil.fail(400, Collections.singletonList(e.getMessage()), e);
     }
 
 

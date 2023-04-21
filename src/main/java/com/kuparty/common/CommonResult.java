@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,31 +26,31 @@ public class CommonResult<T> implements Serializable {
      * 响应消息
      */
     @JsonProperty("msg")
-    private String message;
+    private List<String> messages;
 
     /**
      * 数据
      */
     private T data;
 
-    public static <T> CommonResult<T> error(CommonResult<?> result) {
-        return error(result.getCode(), result.getMessage());
+    public static <T> CommonResult<T> error(CommonResult<T> result) {
+        return error(result.getCode(), result.getMessages());
     }
 
-    public static <T> CommonResult<T> error(Integer code, String message) {
+    public static <T> CommonResult<T> error(Integer code, List<String> messages) {
         Assert.isTrue(!CODE_SUCCESS.equals(code), "错误结果代码不能设置为 0");
-        CommonResult<T> result = new CommonResult<T>();
+        CommonResult<T> result = new CommonResult<>();
         result.code = code;
-        result.message = message;
+        result.messages = messages;
         return result;
     }
 
 
     public static <T> CommonResult<T> success(T data) {
-        CommonResult<T> result = new CommonResult<T>();
+        CommonResult<T> result = new CommonResult<>();
         result.code = CODE_SUCCESS;
         result.data = data;
-        result.message = "";
+        result.messages = null;
         return result;
     }
 

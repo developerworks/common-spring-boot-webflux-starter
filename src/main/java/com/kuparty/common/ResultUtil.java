@@ -2,6 +2,8 @@ package com.kuparty.common;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,7 +32,7 @@ public class ResultUtil {
     public static <T> CommonResult<T> ok(T data) {
         return (CommonResult<T>) CommonResult.builder()
                 .code(StatusCode.OK.getCode())
-                .message(StatusCode.OK.getMessage())
+                .messages(Collections.singletonList(StatusCode.OK.getMessage()))
                 .data(data)
                 .build();
     }
@@ -43,18 +45,17 @@ public class ResultUtil {
      * @return 响应结果
      */
     public static <T> CommonResult<T> fail(StatusCode code, Throwable throwable) {
-        StatusCode statusCode = Optional.ofNullable(code).orElse(StatusCode.SYSTEM_ERROR);
         if (throwable != null) {
             log.error(
                     "请求错误结果:[ {} ]",
-                    statusCode.getCode() + ":" + statusCode.getMessage(),
+                    code + ":" + code.getMessage(),
                     throwable
             );
         }
 
         CommonResult<T> commonResult = new CommonResult<T>();
-        commonResult.setCode(statusCode.getCode());
-        commonResult.setMessage(statusCode.getMessage());
+        commonResult.setCode(code.getCode());
+        commonResult.setMessages(Collections.singletonList(code.getMessage()));
         commonResult.setData(null);
 
         return commonResult;
@@ -64,24 +65,22 @@ public class ResultUtil {
      * 自定义任意结果错误信息响应
      *
      * @param code      错误代码
-     * @param message   错误描述
+     * @param messages  错误描述
      * @param throwable 异常信息
      * @return 响应结果
      */
-    public static <T> CommonResult<T> fail(Integer code, String message, Throwable throwable) {
-        Integer statusCode = Optional.ofNullable(code).orElse(StatusCode.SYSTEM_ERROR.getCode());
-        String statusMessage = Optional.ofNullable(message).orElse(StatusCode.SYSTEM_ERROR.getMessage());
+    public static <T> CommonResult<T> fail(Integer code, List<String> messages, Throwable throwable) {
         if (throwable != null) {
             log.error(
                     "请求错误结果:[ {} ]",
-                    statusCode + ":" + statusMessage,
+                    code + ":" + messages,
                     throwable
             );
         }
 
         CommonResult<T> commonResult = new CommonResult<T>();
-        commonResult.setCode(statusCode);
-        commonResult.setMessage(statusMessage);
+        commonResult.setCode(code);
+        commonResult.setMessages(messages);
         commonResult.setData(null);
 
         return commonResult;

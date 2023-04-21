@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.kuparty.common.Constant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -41,25 +45,29 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
         log.info("[Kuparty] Configuring java 8 date time serializers...");
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         // 日期和时间
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
-                .ofPattern(dateTimeFormatProperties.getDateTime())
-                .withLocale(Locale.getDefault())
-                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+//                .ofPattern(dateTimeFormatProperties.getDateTime())
+//                .withLocale(Locale.getDefault())
+//                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(Constant.DEFAULT_DATETIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(Constant.DEFAULT_DATETIME_FORMATTER));
 
         // 日期
-        DateTimeFormatter dateFormatter = DateTimeFormatter
-                .ofPattern(dateTimeFormatProperties.getDate())
-                .withLocale(Locale.getDefault())
-                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
+//        DateTimeFormatter dateFormatter = DateTimeFormatter
+//                .ofPattern(dateTimeFormatProperties.getDate())
+//                .withLocale(Locale.getDefault())
+//                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
+        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(Constant.DEFAULT_DATE_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(Constant.DEFAULT_DATE_FORMATTER));
 
         // 时间
-        DateTimeFormatter timeFormatter = DateTimeFormatter
-                .ofPattern(dateTimeFormatProperties.getTime())
-                .withLocale(Locale.getDefault())
-                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
-        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(timeFormatter));
+//        DateTimeFormatter timeFormatter = DateTimeFormatter
+//                .ofPattern(dateTimeFormatProperties.getTime())
+//                .withLocale(Locale.getDefault())
+//                .withZone(ZoneId.of(dateTimeFormatProperties.getTimeZone()));
+        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(Constant.DEFAULT_TIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(Constant.DEFAULT_TIME_FORMATTER));
+
 
         return javaTimeModule;
     }
@@ -69,15 +77,12 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
         log.info("[Kuparty] Configuring jackson2 encoder/decoder...");
         configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(
                 new ObjectMapper().registerModule(javaTimeModule())
-//                        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                         .configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, false)
                         .configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false)
-                        .configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false)
-                        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         ));
         configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(
-                new ObjectMapper().registerModule(new JavaTimeModule())
+                new ObjectMapper().registerModule(javaTimeModule())
                         .configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false)
                         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         ));

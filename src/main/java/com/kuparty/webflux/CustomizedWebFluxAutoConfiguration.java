@@ -59,15 +59,13 @@ public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
     @Bean
     public ResponseBodyResultHandler responseBodyResultHandler(
             ServerCodecConfigurer serverCodecConfigurer,
-            RequestedContentTypeResolver requestedContentTypeResolver
-    ) {
-        log.info("Creating GlobalResponseBodyHandler Instance");
+            RequestedContentTypeResolver requestedContentTypeResolver) {
         return new GlobalResponseWrapper(serverCodecConfigurer.getWriters(), requestedContentTypeResolver);
     }
 
-    @Bean
-    GlobalExceptionHandler globalExceptionHandler() {
-        return new GlobalExceptionHandler();
-    }
+    //    @Bean
+    //    GlobalExceptionHandler globalExceptionHandler() {
+    //        return new GlobalExceptionHandler();
+    //    }
 
 }
