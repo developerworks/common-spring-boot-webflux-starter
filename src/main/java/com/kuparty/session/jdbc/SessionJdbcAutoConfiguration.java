@@ -1,7 +1,6 @@
 package com.kuparty.session.jdbc;
 
 import com.kuparty.session.SessionProperties;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -15,16 +14,29 @@ import org.springframework.session.config.annotation.web.server.EnableSpringWebS
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Jdbc 会话自动配置
+ */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = "kuparty.session", name = "store-type", havingValue = "jdbc")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 @EnableConfigurationProperties({SessionProperties.class, SessionJdbcProperties.class})
 @EnableSpringWebSession
-@RequiredArgsConstructor
 @Slf4j
 public class SessionJdbcAutoConfiguration {
-    private final SessionJdbcProperties sessionJdbcProperties;
 
+    /**
+     * 默认构造函数
+     */
+    public SessionJdbcAutoConfiguration() {
+
+    }
+
+    /**
+     * 反应式会话库
+     *
+     * @return 反应式会话库
+     */
     @Bean
     public ReactiveSessionRepository<MapSession> sessionRepository() {
         log.info("[Kuparty] Create session store [jdbc]");

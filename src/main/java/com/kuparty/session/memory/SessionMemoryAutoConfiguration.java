@@ -9,13 +9,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.MapSession;
-import org.springframework.session.MapSessionRepository;
 import org.springframework.session.ReactiveMapSessionRepository;
 import org.springframework.session.ReactiveSessionRepository;
 import org.springframework.session.config.annotation.web.server.EnableSpringWebSession;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 内存会话
+ */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = "kuparty.session", name = "store-type", havingValue = "memory")
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
@@ -25,6 +27,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class SessionMemoryAutoConfiguration {
 
+    /**
+     * 反应式会话库
+     *
+     * @return 反应式会话库
+     */
     @Bean
     public ReactiveSessionRepository<MapSession> sessionRepository() {
         log.info("[Kuparty] Create session store [memory]: ReactiveSessionRepository");

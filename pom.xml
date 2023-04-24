@@ -10,9 +10,11 @@
     </parent>
     <groupId>com.kuparty.webflux</groupId>
     <artifactId>common-spring-boot-starter</artifactId>
-    <version>0.0.1</version>
-    <name>${project.groupId}:${project.artifactId}  </name>
-    <description>Add common webflux configurations to starter to avoid repeatedly configure project in multiple projects, just add this artifact to dependencies to get updates for different project at a time.</description>
+    <version>0.0.2</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Add common webflux configurations to starter to avoid repeatedly configure project in multiple
+        projects, just add this artifact to dependencies to get updates for different project at a time.
+    </description>
     <url>https://github.com/developerworks/common-spring-boot-webflux-starter</url>
     <organization>
         <name>Kuparty, Inc.</name>
@@ -35,7 +37,8 @@
 
     <scm>
         <connection>scm:git:git://github.com/developerworks/common-spring-boot-webflux-starter</connection>
-        <developerConnection>scm:git:ssh://git@github.com/developerworks/common-spring-boot-webflux-starter</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/developerworks/common-spring-boot-webflux-starter
+        </developerConnection>
         <url>https://github.com/developerworks/common-spring-boot-webflux-starter</url>
     </scm>
     <issueManagement>
@@ -105,19 +108,19 @@
                 </executions>
             </plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-source-plugin</artifactId>-->
-<!--                <version>2.2.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>attach-sources</id>-->
-<!--                        <goals>-->
-<!--                            <goal>jar-no-fork</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 
             <!--            Docs -->
@@ -135,7 +138,6 @@
                 </executions>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -151,28 +153,27 @@
                 </executions>
             </plugin>
 
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
-            <!--                <version>1.5</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>sign-artifacts</id>-->
-            <!--                        <phase>verify</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>sign</goal>-->
-            <!--                        </goals>-->
-            <!--                        <configuration>-->
-            <!--                            &lt;!&ndash; Prevent gpg from using pinentry programs &ndash;&gt;-->
-            <!--                            <gpgArguments>-->
-            <!--                                <arg>&#45;&#45;pinentry-mode</arg>-->
-            <!--                                <arg>loopback</arg>-->
-            <!--                            </gpgArguments>-->
-            <!--                        </configuration>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
-
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                <version>1.5</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>sign-artifacts</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>sign</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; Prevent gpg from using pinentry programs &ndash;&gt;-->
+<!--                            <gpgArguments>-->
+<!--                                <arg>&#45;&#45;pinentry-mode</arg>-->
+<!--                                <arg>loopback</arg>-->
+<!--                            </gpgArguments>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
 
             <plugin>
