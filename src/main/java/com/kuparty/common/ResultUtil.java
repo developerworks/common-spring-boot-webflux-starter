@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 响应结果工具
@@ -42,7 +41,8 @@ public class ResultUtil {
      *
      * @param code      错误代码
      * @param throwable 异常信息
-     * @return 响应结果
+     * @param <T>       泛型
+     * @return CommonResult
      */
     public static <T> CommonResult<T> fail(StatusCode code, Throwable throwable) {
         if (throwable != null) {
@@ -64,10 +64,11 @@ public class ResultUtil {
     /**
      * 自定义任意结果错误信息响应
      *
-     * @param code      错误代码
-     * @param messages  错误描述
+     * @param code 错误代码
+     * @param messages 错误描述
      * @param throwable 异常信息
-     * @return 响应结果
+     * @return Generic type of CommonResult
+     * @param <T> T Type
      */
     public static <T> CommonResult<T> fail(Integer code, List<String> messages, Throwable throwable) {
         if (throwable != null) {

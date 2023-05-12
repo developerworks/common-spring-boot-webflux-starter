@@ -16,10 +16,20 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * 全局响应包装类
+ */
 @Slf4j
 public class GlobalResponseWrapper extends ResponseBodyResultHandler {
 
+    /**
+     * 公共结果对象
+     */
     private static final CommonResult<?> COMMON_RESULT_SUCCESS = CommonResult.success(null);
+
+    /**
+     * 方法参数
+     */
     private static final MethodParameter METHOD_PARAMETER_MONO_COMMON_RESULT;
 
     static {
@@ -33,10 +43,23 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         }
     }
 
+    /**
+     * 构造函数
+     *
+     * @param writers  List of HttpMessageWriter
+     * @param resolver {@link RequestedContentTypeResolver}
+     */
     public GlobalResponseWrapper(List<HttpMessageWriter<?>> writers, RequestedContentTypeResolver resolver) {
         super(writers, resolver);
     }
 
+    /**
+     * 构造函数
+     *
+     * @param writers  List of HttpMessageWriter
+     * @param resolver {@link RequestedContentTypeResolver}
+     * @param registry {@link ReactiveAdapterRegistry}
+     */
     public GlobalResponseWrapper(List<HttpMessageWriter<?>> writers, RequestedContentTypeResolver resolver, ReactiveAdapterRegistry registry) {
         super(writers, resolver, registry);
     }
@@ -46,7 +69,7 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
      * {@link CommonResult#success} 进行包装
      *
      * @param body T
-     * @return CommonResult<?>
+     * @return Mono of Generic CommonResult
      */
     private static <T> CommonResult<?> wrapCommonResult(T body) {
         if (body instanceof CommonResult) {
@@ -55,6 +78,12 @@ public class GlobalResponseWrapper extends ResponseBodyResultHandler {
         return CommonResult.success(body);
     }
 
+    /**
+     * Return nothing
+     *
+     * @param <T> T type
+     * @return Mono of Generic CommonResult
+     */
     private static <T> Mono<CommonResult<T>> methodForParams() {
         return null;
     }

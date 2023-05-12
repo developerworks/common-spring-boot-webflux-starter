@@ -6,6 +6,9 @@ import org.springframework.util.FileCopyUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 资源工具
+ */
 public class ResourceUtils {
 
     /**

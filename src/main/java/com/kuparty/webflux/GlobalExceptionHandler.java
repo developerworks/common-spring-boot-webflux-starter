@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
      * 绑定异常处理
      *
      * @param e BindException
-     * @return CommonResult<?>
+     * @return CommonResult
      */
     @ExceptionHandler(BindException.class)
     public CommonResult<?> processBindException(BindException e) {
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
      * 所有未声明处理的异常在这里处理
      *
      * @param e Exception
-     * @return CommonResult<?>
+     * @return CommonResult
      */
     @ExceptionHandler(Exception.class)
     public CommonResult<?> convertExceptionMsg(Exception e) {

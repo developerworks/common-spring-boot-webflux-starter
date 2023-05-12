@@ -14,6 +14,9 @@ import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.result.method.annotation.ResponseBodyResultHandler;
 
+/**
+ * 配置类
+ */
 @Configuration
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
@@ -22,8 +25,16 @@ import org.springframework.web.reactive.result.method.annotation.ResponseBodyRes
 @Slf4j
 public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
 
+    /**
+     * CORS 属性对象
+     */
     private final CorsProperties corsProperties;
 
+    /**
+     * 配置 CORS 跨域
+     *
+     * @param registry {@link CorsRegistry}
+     */
     @ConditionalOnProperty(prefix = "spring.webflux.cors", name = "enabled", havingValue = "true")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -56,6 +67,13 @@ public class CustomizedWebFluxAutoConfiguration implements WebFluxConfigurer {
     //        return new CorsWebFilter(source);
     //    }
 
+    /**
+     * 统一响应体处理
+     *
+     * @param serverCodecConfigurer        {@link ServerCodecConfigurer}
+     * @param requestedContentTypeResolver {@link RequestedContentTypeResolver}
+     * @return {@link ResponseBodyResultHandler}
+     */
     @Bean
     public ResponseBodyResultHandler responseBodyResultHandler(
             ServerCodecConfigurer serverCodecConfigurer,

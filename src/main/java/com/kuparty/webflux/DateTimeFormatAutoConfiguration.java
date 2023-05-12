@@ -26,10 +26,10 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
+/**
+ * 时间格式自动配置
+ */
 @Configuration
 @ConditionalOnClass(WebFluxConfigurer.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
@@ -38,8 +38,16 @@ import java.util.Locale;
 @Slf4j
 public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
 
+    /**
+     * 时间格式配置
+     */
     private final DateTimeFormatProperties dateTimeFormatProperties;
 
+    /**
+     * 配置 Java8 时间模块
+     *
+     * @return
+     */
     @Bean
     JavaTimeModule javaTimeModule() {
         log.info("[Kuparty] Configuring java 8 date time serializers...");
@@ -72,6 +80,11 @@ public class DateTimeFormatAutoConfiguration implements WebFluxConfigurer {
         return javaTimeModule;
     }
 
+    /**
+     * 配置 HTTP MESSAGE 编码
+     *
+     * @param configurer {@link ServerCodecConfigurer}
+     */
     @Override
     public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
         log.info("[Kuparty] Configuring jackson2 encoder/decoder...");
